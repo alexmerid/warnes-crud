@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Gestión de Censistas{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Lista de Censistas</h2>
+    <!-- Botón para abrir el  modal de agregar -->
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Agregar
+        Censista</button>
+</div>
+
+<!-- Tabla de Censistas -->
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Usuario</th>
+            <th>Clave</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for censista in censistas %}
+        <tr>
+            <td>{{ censista.id }}</td>
+            <td>{{ censista.nombre if censista.nombre is not none else '' }}</td>
+            <td>{{ censista.usuario }}</td>
+            <td>{{ censista.pass if censista.pass is not none else ''}}</td>
+            <td>
+                <!-- Botón editar -->
+                <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal"
+                    onclick="editCensista('{{ censista.id }}', '{{ censista.nombre if censista.nombre is not none }}', '{{ censista.usuario }}', '{{ censista.pass if censista.pass is not none }}')">
+                    Editar
+                </button>
+
+                <!-- Botón eliminar -->
+                <a href="/censista/borrar/{{ censista.id }}" class="btn btn-danger btn-sm"
+                    onclick="return confirm('Se eliminará el Censista con ID {{ censista.id }} ¿Está usted seguro?');">
+                    Eliminar
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Modal Agregar -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="/censista/agregar" method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-tittle">Agregar Censista</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="addError" class="alert alert-danger d-none" role="alert"></div>
+                    <div class="mb-3">
+                        <label for="add_id" class="form-label">ID</label>
+                        <input type="number" name="id" id="add_id" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="add_nombre" class="form-label">Nombre</label>
+                        <input type="text" name="nombre" id="add_nombre" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="add_usuario" class="form-label">Usuario</label>
+                        <input type="text" name="usuario" id="add_usuario" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="add_pass" class="form-label">Clave</label>
+                        <input type="text" name="pass" id="add_pass" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Editar -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="/censista/editar" method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Censista </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="editError" class="alert alert-danger d-none" role="alert"></div>
+                    <input type="hidden" name="id" id="edit_id">
+                    <div class="mb-3">
+                        <label for="edit_nombre" class="form-label">Nombre</label>
+                        <input type="text" name="nombre" id="edit_nombre" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_usuario" class="form-label">Usuario</label>
+                        <input type="text" name="usuario" id="edit_usuario" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_pass" class="form-label">Clave</label>
+                        <input type="text" name="pass" id="edit_pass" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-warning">Actualizar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script%}
+<script src="{{ url_for('static', filename='censista.js') }}"></script>
+{% endblock %}
