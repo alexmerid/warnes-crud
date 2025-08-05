@@ -27,11 +27,11 @@ def init_luminaria_routes(app, mysql):
         return redirect(url_for('crud_luminaria'))
 
     # Eliminar luminaria
-    @app.route('/luminaria/borrar/<int:id>')
-    def borrar_luminaria(id):
+    @app.route('/luminaria/borrar/<int:id_lum>')
+    def borrar_luminaria(id_lum):
         conn = mysql.get_db()
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM luminaria WHERE id = %s", (id,))
+        cursor.execute("DELETE FROM luminaria WHERE id = %s", (id_lum,))
         conn.commit()
         cursor.close()
         return redirect(url_for('crud_luminaria'))

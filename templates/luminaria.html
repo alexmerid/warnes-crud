@@ -35,7 +35,7 @@
                 </button>
 
                 <!-- Botón eliminar -->
-                <a href="/luminaria/borrar/{{ luminaria.id }}" class="btn btn-danger btn-sm"
+                <a href="{{ url_for('borrar_luminaria', id_lum=luminaria.id) }}" class="btn btn-danger btn-sm"
                     onclick="return confirm('Se eliminará la Luminaria con ID {{ luminaria.id }} ¿Está usted seguro?');">
                     Eliminar
                 </a>
@@ -59,7 +59,7 @@
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="/luminaria/agregar" method="POST">
+            <form action="{{ url_for('agregar_luminaria') }}" method="POST">
                 <div class="modal-header">
                     <h5 class="modal-tittle">Agregar Luminaria</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
@@ -92,7 +92,7 @@
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="/luminaria/editar" method="POST">
+            <form action="{{ url_for('editar_luminaria') }}" method="POST">
                 <div class="modal-header">
                     <h5 class="modal-title">Editar Luminaria</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
